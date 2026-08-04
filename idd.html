@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sujoy Bhowmick | Software Engineer Portfolio</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #000000;
+            --card-bg: #111111;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-color: #38bdf8;
+            --border-color: #222222;
+            --hover-border: #38bdf8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        /* প্রতিটা পেজে বা স্ক্রিনে একবারে একটা সেকশন ফিট করার জন্য স্ন্যাপ লক এনেবল করা হলো */
+        html {
+            scroll-snap-type: y mandatory;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Background Glow Animation */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-animation span {
+            position: absolute;
+            display: block;
+            width: 30vw;
+            height: 30vw;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            animation: floatOrb 15s infinite linear alternate;
+        }
+
+        .bg-animation span:nth-child(1) {
+            top: -10%;
+            left: -10%;
+            animation-duration: 18s;
+        }
+
+        .bg-animation span:nth-child(2) {
+            bottom: -15%;
+            right: -10%;
+            animation-duration: 22s;
+            animation-delay: -3s;
+        }
+
+        .bg-animation span:nth-child(3) {
+            top: 35%;
+            left: 40%;
+            animation-duration: 20s;
+            animation-delay: -7s;
+        }
+
+        @keyframes floatOrb {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(80px, 100px) scale(1.25);
+            }
+        }
+
+        /* Sticky Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 6%;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-color);
+            letter-spacing: 0.5px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.2rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        nav ul li a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            display: block;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+
+        /* Section Layouts - প্রতিটা সেকশন ফুল স্ক্রিন (100vh) এবং স্ন্যাপ পয়েন্ট সেট করা */
+        section {
+            padding: 6rem 8% 3rem 8%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+        }
+
+        /* Section Heading Animation */
+        section h2 {
+            font-size: 2.3rem;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(-30px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        section.visible h2 {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        /* Grid Containers */
+        .grid-container,
+        .contact-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .contact-layout {
+            grid-template-columns: 1.2fr 1fr;
+        }
+
+        /* Cards Styling */
+        .card,
+        .skill-category-card,
+        .connect-action-box {
+            background: var(--card-bg);
+            padding: 2rem 1.8rem;
+            border-radius: 12px;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.05), inset 0 0 15px rgba(56, 189, 248, 0.02);
+            animation: boxFloat 6s ease-in-out infinite alternate;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        @keyframes boxFloat {
+            0% {
+                transform: translateY(0px);
+            }
+
+            100% {
+                transform: translateY(-6px);
+            }
+        }
+
+        /* স্লাইডিং লজিক (বাম ও ডান দিক থেকে আসবে) */
+        .grid-container>*,
+        .contact-cards-stack>*,
+        .connect-action-box {
+            opacity: 0;
+            transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .grid-container>*:nth-child(odd),
+        .contact-cards-stack>*:nth-child(odd),
+        .contact-layout>*:nth-child(odd) {
+            transform: translateX(-100vw);
+        }
+
+        .grid-container>*:nth-child(even),
+        .contact-cards-stack>*:nth-child(even),
+        .contact-layout>*:nth-child(even) {
+            transform: translateX(100vw);
+        }
+
+        section.visible .grid-container>*,
+        section.visible .contact-cards-stack>*,
+        section.visible .contact-layout>* {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        section.visible *:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        section.visible *:nth-child(2) {
+            transition-delay: 0.25s;
+        }
+
+        section.visible *:nth-child(3) {
+            transition-delay: 0.4s;
+        }
+
+        /* Hover & Click Glow + Lift Effect */
+        .card:hover,
+        .skill-category-card:hover,
+        .contact-box:hover,
+        .connect-action-box:hover {
+            border-color: var(--hover-border);
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.4), inset 0 0 20px rgba(56, 189, 248, 0.12);
+            transform: translateY(-10px) !important;
+            animation-play-state: paused;
+        }
+
+        .card:active,
+        .skill-category-card:active,
+        .contact-box:active,
+        .connect-action-box:active {
+            transform: translateY(-16px) scale(1.02) !important;
+            box-shadow: 0 0 50px rgba(56, 189, 248, 0.75), inset 0 0 25px rgba(56, 189, 248, 0.3);
+            border-color: #ffffff;
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .card p,
+        .card li {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .card ul {
+            padding-left: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .card li {
+            margin-bottom: 0.4rem;
+        }
+
+        /* Badge Pill Elements */
+        .badge-pill {
+            display: inline-block;
+            background: #000000;
+            color: var(--accent-color);
+            padding: 0.4rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            margin-bottom: 0.8rem;
+            transition: background 0.3s ease;
+        }
+
+        .badge-pill:hover {
+            background: rgba(56, 189, 248, 0.05);
+        }
+
+        /* Skills Layout */
+        .skill-category-card h3 {
+            font-size: 1.15rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .skill-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+
+        .skill-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #000000;
+            padding: 0.6rem 0.9rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: border-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .skill-row:hover {
+            border-color: var(--accent-color);
+            transform: translateX(4px);
+        }
+
+        .skill-row span:first-child {
+            color: var(--text-color);
+        }
+
+        /* Hero Section Layout */
+        #home {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2.5rem;
+        }
+
+        #home .hero-content {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.05);
+            flex: 1.2;
+            animation: boxFloat 5s ease-in-out infinite alternate;
+        }
+
+        #home .hero-img-wrapper {
+            background: var(--card-bg);
+            padding: 1.8rem;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.05);
+            flex: 0.9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: boxFloat 6s ease-in-out infinite alternate;
+            animation-delay: -1s;
+        }
+
+        #home .hero-content:hover,
+        #home .hero-img-wrapper:hover {
+            border-color: var(--hover-border);
+            box-shadow: 0 0 35px rgba(56, 189, 248, 0.4);
+            transform: translateY(-8px) !important;
+            animation-play-state: paused;
+        }
+
+        /* Multilingual Rotating Hello Text Header */
+        .dynamic-hello {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin-bottom: 0.4rem;
+            font-weight: 700;
+            min-height: 2.5rem;
+            display: inline-block;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            background: linear-gradient(90deg, #38bdf8, #ffffff, #38bdf8);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            animation: shineName 4s linear infinite, slowWaver 4s ease-in-out infinite alternate;
+            transform-origin: left center;
+        }
+
+        @keyframes shineName {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        @keyframes slowWaver {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-3px) rotate(0.3deg);
+            }
+
+            100% {
+                transform: translateY(2px) rotate(-0.3deg);
+            }
+        }
+
+        .hero-img-wrapper img {
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-color);
+            animation: roundImageWaver 6s ease-in-out infinite alternate;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
+        }
+
+        @keyframes roundImageWaver {
+            0% {
+                transform: translateY(0px) scale(1) rotate(0deg);
+                box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+            }
+
+            50% {
+                transform: translateY(-10px) scale(1.03) rotate(2deg);
+                box-shadow: 0 0 35px rgba(56, 189, 248, 0.5);
+            }
+
+            100% {
+                transform: translateY(6px) scale(0.98) rotate(-2deg);
+                box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+            }
+        }
+
+        .name-tag-badge {
+            margin-top: 1.2rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--border-color);
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            color: var(--text-color);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .hero-content p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.8rem;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--card-bg);
+            color: var(--text-color);
+            padding: 0.7rem 1.4rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: -100%;
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::after {
+            left: 100%;
+        }
+
+        .btn:hover {
+            border-color: var(--hover-border);
+            color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            color: #0f172a;
+            border: none;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3);
+        }
+
+        /* Contact Section Details */
+        .contact-cards-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: transparent;
+            border: none;
+            padding: 0;
+            box-shadow: none;
+        }
+
+        .contact-box {
+            background: var(--card-bg);
+            padding: 1.1rem 1.4rem;
+            border-radius: 10px;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.04);
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            animation: boxFloat 5s ease-in-out infinite alternate;
+        }
+
+        .contact-box:hover {
+            border-color: var(--hover-border);
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.4);
+            transform: translateY(-6px);
+            animation-play-state: paused;
+        }
+
+        .contact-box span {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-box strong {
+            color: var(--text-color);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .connect-action-box p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Footer inside section / height management */
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg-color);
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            scroll-snap-align: end;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            nav ul {
+                gap: 0.8rem;
+            }
+
+            nav ul li a {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 900px) {
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            nav ul {
+                justify-content: center;
+                gap: 0.6rem;
+            }
+
+            #home {
+                flex-direction: column;
+                text-align: left;
+                padding-top: 10rem;
+            }
+
+            .contact-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Ambient Background Animation Container -->
+    <div class="bg-animation">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Sticky Navbar -->
+    <header>
+        <div class="logo">Sujoy.dev</div>
+        <nav>
+            <ul id="nav-list">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#academic">Academic</a></li>
+                <li><a href="#roles">Roles</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#certifications">Certs</a></li>
+                <li><a href="#achievements">Awards</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home">
+        <div class="hero-content">
+            <div class="dynamic-hello" id="hello-text">HELLO</div><br>
+            <h1>I'm Sujoy.</h1>
+            <p>An ambitious Software Engineering undergraduate at Daffodil International University
+                bridging technical innovation with clean backend architecture, targeting remote global roles by 2028.
+            </p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary">Get in touch</a>
+            </div>
+        </div>
+        <div class="hero-img-wrapper">
+            <img src="https://scontent.fdac5-1.fna.fbcdn.net/v/t39.30808-6/488642296_1945148902678411_4668598358432244885_n.jpg?stp=dst-jpg_tt6&cstp=mx955x960&ctp=s955x960&_nc_cat=105&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeEtw9DVXNgGV08On84rFCxLe4vRfVwwU957i9F9XDBT3rkrw1xtrswQxHtGDxgF0SP63DQj5Yu1jleTizGbwZse&_nc_ohc=mKuka8UqIcwQ7kNvwEWcs6F&_nc_oc=AdosiyO7ULl_Le2RZoU64tmrDjjJA1EcAYvHauF_lgKZniAT1pfNNLHtkged9JHlCpc&_nc_zt=23&_nc_ht=scontent.fdac5-1.fna&_nc_gid=2GgbwvxSyg01gF2A6oAJTA&_nc_ss=7b2a8&oh=00_AQFQfhfXzqKn7nWIiHiOGjfzxWv0HdN2DRGP28XZ0xReDA&oe=6A7776E2"
+                alt="Sujoy Bhowmick">
+            <div class="name-tag-badge">Sujoy Bhowmick</div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About Me.</h2>
+        <div class="grid-container">
+            <div class="card">
+                <h3>Personal Profile</h3>
+                <p>I am Sujoy Bhowmick, an undergraduate Software Engineering student at Daffodil International
+                    University with a strong academic foundation. Driven by a passion for emerging technologies, I
+                    specialize in backend web development (FastAPI/Django), Artificial Intelligence, and Cybersecurity,
+                    aiming to secure a remote software engineering role by 2028.</p>
+            </div>
+            <div class="card">
+                <h3>Personality & Interests</h3>
+                <p>Passionate continuous learner with high adaptability and analytical problem-solving skills. Deeply
+                    interested in decentralized blockchain ecosystems, cryptocurrency trading strategies, web design,
+                    and strategic simulation gaming like eFootball.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Academic Background Section -->
+    <section id="academic">
+        <h2>Academic Background.</h2>
+        <div class="grid-container">
+            <div class="card">
+                <span class="badge-pill">Degree Track</span>
+                <h3>B.Sc. in Software Engineering</h3>
+                <p><strong>Institution:</strong> Daffodil International University, Bangladesh</p>
+                <p><strong>Expected Graduation:</strong> 2028</p>
+                <p><strong>Academic Standing:</strong> 3.63 CGPA (Average Strong Academic Record)</p>
+            </div>
+            <div class="card">
+                <span class="badge-pill">Core Curriculum</span>
+                <h3>Focus Areas & Principles</h3>
+                <p>Software engineering principles, system architecture, database management systems, computer
+                    architecture, backend web development, AI fundamentals, and cybersecurity foundations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roles & Responsibilities Section -->
+    <section id="roles">
+        <h2>Roles & Responsibilities.</h2>
+        <div class="grid-container">
+            <div class="card">
+                <h3>Software Engineering Student & Developer</h3>
+                <p>Designing, developing, and building structured applications and personal portfolio projects using
+                    modern technologies like FastAPI and WordPress.</p>
+            </div>
+            <div class="card">
+                <h3>Backend Development & Community</h3>
+                <p>Applying core software architecture and database design patterns. Actively participating in campus
+                    initiatives, tech community events, and collaborative workflows.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2>Project Works.</h2>
+        <div class="grid-container">
+            <div class="card">
+                <h3>ScheduleCity</h3>
+                <p>Designed and built an advanced cluster management system focusing on scheduling workflows, robust
+                    backend architecture, database integration, and high performance.</p>
+                <br>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <span class="badge-pill" style="margin:0;">Python</span>
+                    <span class="badge-pill" style="margin:0;">FastAPI</span>
+                    <span class="badge-pill" style="margin:0;">Database</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Personal Portfolio & Web Apps</h3>
+                <p>Engineered and optimized responsive web interfaces and dynamic personal portfolios utilizing modern
+                    HTML, CSS, JavaScript, and scalable server configurations.</p>
+                <br>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <span class="badge-pill" style="margin:0;">HTML5</span>
+                    <span class="badge-pill" style="margin:0;">CSS3</span>
+                    <span class="badge-pill" style="margin:0;">JavaScript</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <h2>Skills & Expertise.</h2>
+        <div class="grid-container">
+            <div class="skill-category-card">
+                <h3>Backend & Programming</h3>
+                <div class="skill-items">
+                    <div class="skill-row"><span>Python / FastAPI</span><i class="fas fa-code"></i></div>
+                    <div class="skill-row"><span>C Language</span><i class="fas fa-terminal"></i></div>
+                    <div class="skill-row"><span>JavaScript / Web</span><i class="fab fa-js"></i></div>
+                    <div class="skill-row"><span>HTML/CSS</span><i class="fas fa-code"></i></div>
+                </div>
+            </div>
+            <div class="skill-category-card">
+                <h3>Core Competencies</h3>
+                <div class="skill-items">
+                    <div class="skill-row"><span>Problem Solving</span><i class="fas fa-brain"></i></div>
+                    <div class="skill-row"><span>Cybersecurity Basics</span><i class="fas fa-shield-alt"></i></div>
+                    <div class="skill-row"><span>Database & SQL</span><i class="fas fa-database"></i></div>
+                </div>
+            </div>
+            <div class="skill-category-card">
+                <h3>Emerging Tech & Tools</h3>
+                <div class="skill-items">
+                    <div class="skill-row"><span>Blockchain & Web3</span><i class="fas fa-link"></i></div>
+                    <div class="skill-row"><span>Trading Analysis</span><i class="fas fa-chart-line"></i></div>
+                    <div class="skill-row"><span>Git & GitHub</span><i class="fab fa-github"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Experience Section -->
+    <section id="experience">
+        <h2>Work Experience.</h2>
+        <div class="grid-container">
+            <div class="card">
+                <span class="badge-pill">Ongoing / Professional</span>
+                <h3>Freelance / Personal Project Developer</h3>
+                <p>Designed, built, and optimized custom portfolio websites and backend applications using WordPress and
+                    modern web tools to showcase academic and technical capability with a focus on clean scalable
+                    architecture.</p>
+            </div>
+            <div class="card">
+                <span class="badge-pill">Campus & Community</span>
+                <h3>Volunteer & Campus Involvement</h3>
+                <p>Participated in university volunteer programs and community tech initiatives at Daffodil
+                    International University, collaborating with peers and attending specialized tech conferences.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications">
+        <h2>Certifications.</h2>
+        <div class="grid-container">
+            <div class="card">
+                <span class="badge-pill">Verified Credentials</span>
+                <h3>Continuous Skill Development</h3>
+                <p>Completed various specialized certified training programs and courses in Artificial Intelligence,
+                    Cybersecurity, and Backend Web Development.</p>
+                <br>
+                <p><a href="https://www.linkedin.com/in/sujoy-bhowmick-b42796329/" target="_blank"
+                        style="color: var(--accent-color); text-decoration: none; font-weight: 600;">View Verified
+                        LinkedIn
+                        Certificates &rarr;</a></p>
+            </div>
+            <div class="card">
+                <span class="badge-pill">Global Tech Exposure</span>
+                <h3>Industry Workshops & Gatherings</h3>
+                <p>Attended high-impact industry tech events such as Binance Blockchain Week to maintain cutting-edge
+                    knowledge of decentralized Web3 technologies.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements">
+        <h2>Achievements.</h2>
+        <div class="grid-container">
+            <div class="card">
+                <span class="badge-pill">Academic Excellence</span>
+                <h3>Averagely 3.63 CGPA Strong Academic Record in Software Engineering</h3>
+                <p>Maintained a high academic record at Daffodil International University while concurrently
+                    upskilling
+                    in high-demand technical domains like AI and backend web architectures.</p>
+            </div>
+            <div class="card">
+                <span class="badge-pill">Leadership Foundation</span>
+                <h3>Extracurricular & Scouting</h3>
+                <p>Developed strong leadership, discipline, and community service foundations through past active
+                    membership in the <strong>Bangladesh Scouts</strong>.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Get In Touch.</h2>
+        <div class="contact-layout">
+            <div class="contact-cards-stack">
+                <a href="mailto:sujoybhowmick004@gmail.com" class="contact-box">
+                    <span>Email</span>
+                    <strong>sujoybhowmick004@gmail.com</strong>
+                </a>
+                <a href="https://www.linkedin.com/in/sujoy-bhowmick-b42796329/" target="_blank" class="contact-box">
+                    <span>LinkedIn</span>
+                    <strong>Sujoy Bhowmick</strong>
+                </a>
+                <div class="contact-box">
+                    <span>Location</span>
+                    <span>Bangladesh</span>
+                </div>
+            </div>
+            <div class="connect-action-box">
+                <h3>Let's Connect!</h3>
+                <p>Have a project in mind, a question, or want to discuss software engineering innovations? My inbox is
+                    always open.</p>
+                <a href="mailto:sujoybhowmick004@gmail.com" class="btn btn-primary" style="justify-content: center;"><i
+                        class="fas fa-envelope"></i> Email Me Directly</a>
+                <a href="https://www.linkedin.com/in/sujoy-bhowmick-b42796329/" target="_blank" class="btn"
+                    style="justify-content: center;"><i class="fab fa-linkedin"></i> View LinkedIn Profile</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Sujoy Bhowmick. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript Interactive Scripts -->
+    <script>
+        /* Multilingual Hello Language Switcher Logic */
+        const helloWords = [
+            "HELLO",    // English
+            "হ্যালো",    // Bengali
+            "你好",      // Chinese
+            "HOLA",      // Spanish
+            "BONJOUR",   // French
+            "नमस्ते",    // Hindi
+            "CIAO",      // Italian
+            "Olá",       // Portuguese
+            "HALLO"      // German
+        ];
+
+        let currentIndex = 0;
+        const helloElement = document.getElementById('hello-text');
+
+        setInterval(() => {
+            helloElement.style.opacity = '0';
+            helloElement.style.transform = 'translateY(-6px)';
+
+            setTimeout(() => {
+                currentIndex = (currentIndex + 1) % helloWords.length;
+                helloElement.textContent = helloWords[currentIndex];
+                helloElement.style.opacity = '1';
+                helloElement.style.transform = 'translateY(0)';
+            }, 350);
+        }, 2200);
+
+        /* Intersection Observer for Left/Right Side Sliding */
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+
+</html>
