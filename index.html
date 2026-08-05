@@ -186,7 +186,7 @@
             box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
         }
 
-        /* Section Layouts - Expanded wider and Smooth Transition Added */
+        /* Section Layouts */
         section {
             padding: 6rem 4% 3rem 4%;
             min-height: 100vh;
@@ -198,7 +198,6 @@
             scroll-snap-stop: always;
             text-align: center;
 
-            /* Smooth Section Transition Effect */
             opacity: 0;
             transform: scale(0.96);
             transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
@@ -273,7 +272,7 @@
             box-shadow: 0 0 15px rgba(56, 189, 248, 0.9);
         }
 
-        /* Grid Containers - Widened across the screen */
+        /* Grid Containers */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, minmax(480px, 1fr));
@@ -292,7 +291,7 @@
             text-align: left;
         }
 
-        /* Cards Styling - Larger and wider boxes */
+        /* Cards Styling */
         .card,
         .skill-category-card,
         .connect-action-box {
@@ -324,7 +323,7 @@
             }
         }
 
-        /* Product Website Style: Side-sliding door entrance animation from left and right */
+        /* Side-sliding door entrance animation */
         .grid-container>*:nth-child(odd),
         .contact-cards-stack>*,
         .contact-layout>*:nth-child(odd) {
@@ -347,7 +346,6 @@
             transform: translateX(0);
         }
 
-        /* Staggered delay for cinematic product-site sequence */
         section.visible *:nth-child(1) {
             transition-delay: 0.1s;
         }
@@ -364,11 +362,12 @@
             transition-delay: 0.55s;
         }
 
-        /* Hover & Click Glow + Lift Effect */
+        /* Hover Effect */
         .card:hover,
         .skill-category-card:hover,
         .contact-box:hover,
-        .connect-action-box:hover {
+        .connect-action-box:hover,
+        .hero-single-box:hover {
             border-color: var(--hover-border);
             box-shadow: 0 0 40px rgba(56, 189, 248, 0.35), inset 0 0 20px rgba(56, 189, 248, 0.1);
             transform: translateY(-8px) !important;
@@ -441,44 +440,56 @@
             color: var(--text-color);
         }
 
-        /* Hero Section Layout */
+        /* Hero Section Layout - Image on Left, Details on Right inside Single Box */
         #home {
             flex-direction: row;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            gap: 3.5rem;
+            gap: 2.5rem;
             text-align: left;
             padding-top: 6rem;
-            max-width: 1400px;
+            max-width: 1450px;
             margin: 0 auto;
         }
 
-        #home .hero-content {
+        .hero-single-box {
             background: var(--card-bg);
             padding: 3.5rem;
             border-radius: 20px;
             border: 1px solid var(--border-color);
             box-shadow: 0 0 35px rgba(56, 189, 248, 0.05);
-            flex: 1.4;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 3.5rem;
+            width: 100%;
             animation: boxFloat 5s ease-in-out infinite alternate;
-            transition: background 0.4s ease, border-color 0.4s ease;
+            transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.3s ease, transform 0.4s ease;
+            cursor: pointer;
+
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        #home .hero-img-wrapper {
-            background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 0 35px rgba(56, 189, 248, 0.05);
+        section.visible .hero-single-box {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Image Wrapper on Left */
+        .hero-single-box .hero-img-wrapper {
             flex: 0.9;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
-            animation: boxFloat 6s ease-in-out infinite alternate;
-            animation-delay: -1s;
-            transition: background 0.4s ease, border-color 0.4s ease;
+        }
+
+        /* Content Details on Right */
+        .hero-single-box .hero-content {
+            flex: 1.4;
         }
 
         .dynamic-hello {
@@ -491,7 +502,7 @@
             transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
-        .hero-content h1 {
+        .hero-single-box .hero-content h1 {
             font-size: 3.6rem;
             margin-bottom: 1.4rem;
             font-weight: 700;
@@ -504,16 +515,16 @@
             animation: shineName 4s linear infinite;
         }
 
-        [data-theme="light"] .hero-content h1 {
+        [data-theme="light"] .hero-single-box .hero-content h1 {
             background: linear-gradient(90deg, #0284c7, #0f172a, #0284c7);
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .hero-img-wrapper img {
-            width: 230px;
-            height: 230px;
+        .hero-single-box .hero-img-wrapper img {
+            width: 220px;
+            height: 220px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid var(--accent-color);
@@ -532,7 +543,7 @@
             transition: background 0.3s ease;
         }
 
-        .hero-content p {
+        .hero-single-box .hero-content p {
             color: var(--text-muted);
             font-size: 1.2rem;
             margin-bottom: 2rem;
@@ -646,10 +657,14 @@
                 max-width: 700px;
             }
 
-            #home {
-                flex-direction: column;
-                padding-top: 8rem;
+            .hero-single-box {
+                flex-direction: column-reverse;
                 text-align: left;
+                padding: 2.5rem;
+            }
+
+            #home {
+                padding-top: 8rem;
             }
         }
 
@@ -710,22 +725,25 @@
         </nav>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero Section (Image on Left, Details on Right inside Single Box) -->
     <section id="home">
-        <div class="hero-content">
-            <div class="dynamic-hello" id="hello-text">HELLO</div><br>
-            <h1>I'm Sujoy.</h1>
-            <p>An ambitious Software Engineering undergraduate at Daffodil International University
-                bridging technical innovation with clean backend architecture, targeting remote global roles by 2028.
-            </p>
-            <div class="hero-buttons">
-                <a href="#contact" class="btn btn-primary">Get in touch</a>
+        <div class="hero-single-box">
+            <div class="hero-img-wrapper">
+                <img src="https://scontent.fdac5-1.fna.fbcdn.net/v/t39.30808-6/488642296_1945148902678411_4668598358432244885_n.jpg?stp=dst-jpg_tt6&cstp=mx955x960&ctp=s955x960&_nc_cat=105&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeEtw9DVXNgGV08On84rFCxLe4vRfVwwU957i9F9XDBT3rkrw1xtrswQxHtGDxgF0SP63DQj5Yu1jleTizGbwZse&_nc_ohc=mKuka8UqIcwQ7kNvwEWcs6F&_nc_oc=AdosiyO7ULl_Le2RZoU64tmrDjjJA1EcAYvHauF_lgKZniAT1pfNNLHtkged9JHlCpc&_nc_zt=23&_nc_ht=scontent.fdac5-1.fna&_nc_gid=2GgbwvxSyg01gF2A6oAJTA&_nc_ss=7b2a8&oh=00_AQFQfhfXzqKn7nWIiHiOGjfzxWv0HdN2DRGP28XZ0xReDA&oe=6A7776E2"
+                    alt="Sujoy Bhowmick">
+                <div class="name-tag-badge">Sujoy Bhowmick</div>
             </div>
-        </div>
-        <div class="hero-img-wrapper">
-            <img src="https://scontent.fdac5-1.fna.fbcdn.net/v/t39.30808-6/488642296_1945148902678411_4668598358432244885_n.jpg?stp=dst-jpg_tt6&cstp=mx955x960&ctp=s955x960&_nc_cat=105&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeEtw9DVXNgGV08On84rFCxLe4vRfVwwU957i9F9XDBT3rkrw1xtrswQxHtGDxgF0SP63DQj5Yu1jleTizGbwZse&_nc_ohc=mKuka8UqIcwQ7kNvwEWcs6F&_nc_oc=AdosiyO7ULl_Le2RZoU64tmrDjjJA1EcAYvHauF_lgKZniAT1pfNNLHtkged9JHlCpc&_nc_zt=23&_nc_ht=scontent.fdac5-1.fna&_nc_gid=2GgbwvxSyg01gF2A6oAJTA&_nc_ss=7b2a8&oh=00_AQFQfhfXzqKn7nWIiHiOGjfzxWv0HdN2DRGP28XZ0xReDA&oe=6A7776E2"
-                alt="Sujoy Bhowmick">
-            <div class="name-tag-badge">Sujoy Bhowmick</div>
+            <div class="hero-content">
+                <div class="dynamic-hello" id="hello-text">HELLO</div><br>
+                <h1>I'm Sujoy.</h1>
+                <p>An ambitious Software Engineering undergraduate at Daffodil International University
+                    bridging technical innovation with clean backend architecture, targeting remote global roles by
+                    2028.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">Get in touch</a>
+                </div>
+            </div>
         </div>
     </section>
 
