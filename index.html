@@ -15,9 +15,9 @@
             --bg-color: #000000;
             --card-bg: #111111;
             --text-color: #f8fafc;
-            --text-muted: #94a3b8;
+            --text-muted: #cbd5e1;
             --accent-color: #38bdf8;
-            --border-color: #222222;
+            --border-color: #334155;
             --hover-border: #38bdf8;
         }
 
@@ -57,8 +57,8 @@
         .bg-animation span {
             position: absolute;
             display: block;
-            width: 30vw;
-            height: 30vw;
+            width: 35vw;
+            height: 35vw;
             background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
             border-radius: 50%;
             animation: floatOrb 15s infinite linear alternate;
@@ -128,7 +128,7 @@
             color: var(--text-muted);
             text-decoration: none;
             font-weight: 500;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             transition: all 0.2s ease;
             display: block;
         }
@@ -138,28 +138,66 @@
             text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
         }
 
-        /* Section Layouts - Full screen viewport with scroll snap */
+        /* Section Layouts - Expanded wider and Smooth Transition Added */
         section {
-            padding: 6rem 8% 3rem 8%;
+            padding: 6rem 4% 3rem 4%;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
             scroll-snap-align: start;
             scroll-snap-stop: always;
+            text-align: center;
+
+            /* Smooth Section Transition Effect */
+            opacity: 0;
+            transform: scale(0.96);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Section Heading Animation */
+        section.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Section Heading with Glow Text Effect */
         section h2 {
-            font-size: 2.3rem;
-            margin-bottom: 2rem;
-            color: var(--text-color);
+            font-size: 3.2rem;
+            margin-bottom: 2.2rem;
             font-weight: 700;
-            letter-spacing: -0.5px;
+            letter-spacing: -1px;
+            background: linear-gradient(90deg, #38bdf8, #ffffff, #38bdf8);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            animation: shineName 4s linear infinite, slowWaver 4s ease-in-out infinite alternate;
+            transform-origin: center center;
             position: relative;
             opacity: 0;
-            transform: translateY(-30px);
-            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(-20px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes shineName {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        @keyframes slowWaver {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-3px) rotate(0.2deg);
+            }
+
+            100% {
+                transform: translateY(2px) rotate(-0.2deg);
+            }
         }
 
         section.visible h2 {
@@ -170,40 +208,54 @@
         section h2::after {
             content: '';
             position: absolute;
-            left: 0;
-            bottom: -10px;
-            width: 50px;
-            height: 3px;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -12px;
+            width: 90px;
+            height: 4px;
             background: var(--accent-color);
             border-radius: 2px;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.9);
         }
 
-        /* Grid Containers */
-        .grid-container,
+        /* Grid Containers - Widened across the screen */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(480px, 1fr));
+            gap: 2.2rem;
+            justify-content: center;
+            width: 100%;
+            max-width: 1450px;
+        }
+
         .contact-layout {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.8rem;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2.5rem;
+            width: 100%;
+            max-width: 1200px;
+            text-align: left;
         }
 
-        .contact-layout {
-            grid-template-columns: 1.2fr 1fr;
-        }
-
-        /* Cards Styling */
+        /* Cards Styling - Larger and wider boxes */
         .card,
         .skill-category-card,
         .connect-action-box {
             background: var(--card-bg);
-            padding: 2rem 1.8rem;
-            border-radius: 12px;
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.05), inset 0 0 15px rgba(56, 189, 248, 0.02);
+            padding: 2.5rem 2.8rem;
+            border-radius: 18px;
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.08), inset 0 0 15px rgba(56, 189, 248, 0.03);
             animation: boxFloat 6s ease-in-out infinite alternate;
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
                 border-color 0.3s ease,
                 box-shadow 0.3s ease;
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            text-align: left;
+            min-height: 260px;
         }
 
         @keyframes boxFloat {
@@ -212,30 +264,24 @@
             }
 
             100% {
-                transform: translateY(-6px);
+                transform: translateY(-5px);
             }
         }
 
-        /* Side-sliding entrance animation for grid items */
-        .grid-container>*,
-        .contact-cards-stack>*,
-        .connect-action-box {
-            opacity: 0;
-            transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        /* Odd items slide from left */
+        /* Product Website Style: Side-sliding door entrance animation from left and right */
         .grid-container>*:nth-child(odd),
-        .contact-cards-stack>*:nth-child(odd),
+        .contact-cards-stack>*,
         .contact-layout>*:nth-child(odd) {
-            transform: translateX(-100vw);
+            opacity: 0;
+            transform: translateX(-120vw);
+            transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.1s ease;
         }
 
-        /* Even items slide from right */
         .grid-container>*:nth-child(even),
-        .contact-cards-stack>*:nth-child(even),
         .contact-layout>*:nth-child(even) {
-            transform: translateX(100vw);
+            opacity: 0;
+            transform: translateX(120vw);
+            transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.1s ease;
         }
 
         section.visible .grid-container>*,
@@ -245,6 +291,7 @@
             transform: translateX(0);
         }
 
+        /* Staggered delay for cinematic product-site sequence */
         section.visible *:nth-child(1) {
             transition-delay: 0.1s;
         }
@@ -257,46 +304,33 @@
             transition-delay: 0.4s;
         }
 
+        section.visible *:nth-child(4) {
+            transition-delay: 0.55s;
+        }
+
         /* Hover & Click Glow + Lift Effect */
         .card:hover,
         .skill-category-card:hover,
         .contact-box:hover,
         .connect-action-box:hover {
             border-color: var(--hover-border);
-            box-shadow: 0 0 30px rgba(56, 189, 248, 0.4), inset 0 0 20px rgba(56, 189, 248, 0.12);
-            transform: translateY(-10px) !important;
+            box-shadow: 0 0 40px rgba(56, 189, 248, 0.5), inset 0 0 20px rgba(56, 189, 248, 0.15);
+            transform: translateY(-8px) !important;
             animation-play-state: paused;
         }
 
-        .card:active,
-        .skill-category-card:active,
-        .contact-box:active,
-        .connect-action-box:active {
-            transform: translateY(-16px) scale(1.02) !important;
-            box-shadow: 0 0 50px rgba(56, 189, 248, 0.75), inset 0 0 25px rgba(56, 189, 248, 0.3);
-            border-color: #ffffff;
-        }
-
         .card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.8rem;
-            color: var(--text-color);
+            font-size: 1.55rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
             font-weight: 600;
         }
 
         .card p,
         .card li {
             color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .card ul {
-            padding-left: 1.2rem;
-            margin-top: 0.5rem;
-        }
-
-        .card li {
-            margin-bottom: 0.4rem;
+            font-size: 1.12rem;
+            line-height: 1.7;
         }
 
         /* Badge Pill Elements */
@@ -304,31 +338,27 @@
             display: inline-block;
             background: #000000;
             color: var(--accent-color);
-            padding: 0.4rem 0.9rem;
+            padding: 0.4rem 1rem;
             border-radius: 6px;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             font-weight: 600;
             border: 1px solid var(--border-color);
-            margin-bottom: 0.8rem;
-            transition: background 0.3s ease;
-        }
-
-        .badge-pill:hover {
-            background: rgba(56, 189, 248, 0.05);
+            margin-bottom: 0.9rem;
+            width: fit-content;
         }
 
         /* Skills Layout */
         .skill-category-card h3 {
-            font-size: 1.15rem;
+            font-size: 1.45rem;
             color: var(--accent-color);
-            margin-bottom: 1rem;
+            margin-bottom: 1.1rem;
             font-weight: 600;
         }
 
         .skill-items {
             display: flex;
             flex-direction: column;
-            gap: 0.7rem;
+            gap: 0.8rem;
         }
 
         .skill-row {
@@ -336,11 +366,11 @@
             justify-content: space-between;
             align-items: center;
             background: #000000;
-            padding: 0.6rem 0.9rem;
+            padding: 0.8rem 1.1rem;
             border-radius: 8px;
             border: 1px solid var(--border-color);
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 1.08rem;
             font-weight: 500;
             transition: border-color 0.3s ease, transform 0.2s ease;
         }
@@ -357,27 +387,31 @@
         /* Hero Section Layout */
         #home {
             flex-direction: row;
-            align-items: center;
             justify-content: space-between;
-            gap: 2.5rem;
+            align-items: center;
+            gap: 3.5rem;
+            text-align: left;
+            padding-top: 6rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         #home .hero-content {
             background: var(--card-bg);
-            padding: 2.5rem;
+            padding: 3.5rem;
             border-radius: 20px;
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            box-shadow: 0 0 25px rgba(56, 189, 248, 0.05);
-            flex: 1.2;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            box-shadow: 0 0 35px rgba(56, 189, 248, 0.08);
+            flex: 1.4;
             animation: boxFloat 5s ease-in-out infinite alternate;
         }
 
         #home .hero-img-wrapper {
             background: var(--card-bg);
-            padding: 1.8rem;
+            padding: 2.5rem;
             border-radius: 20px;
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            box-shadow: 0 0 25px rgba(56, 189, 248, 0.05);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            box-shadow: 0 0 35px rgba(56, 189, 248, 0.08);
             flex: 0.9;
             display: flex;
             flex-direction: column;
@@ -388,19 +422,10 @@
             animation-delay: -1s;
         }
 
-        #home .hero-content:hover,
-        #home .hero-img-wrapper:hover {
-            border-color: var(--hover-border);
-            box-shadow: 0 0 35px rgba(56, 189, 248, 0.4);
-            transform: translateY(-8px) !important;
-            animation-play-state: paused;
-        }
-
-        /* Multilingual Rotating Hello Text Header */
         .dynamic-hello {
-            font-size: 2rem;
+            font-size: 2.1rem;
             color: var(--text-color);
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.6rem;
             font-weight: 700;
             min-height: 2.5rem;
             display: inline-block;
@@ -408,8 +433,8 @@
         }
 
         .hero-content h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1.2rem;
+            font-size: 3.6rem;
+            margin-bottom: 1.4rem;
             font-weight: 700;
             letter-spacing: -1px;
             background: linear-gradient(90deg, #38bdf8, #ffffff, #38bdf8);
@@ -417,118 +442,61 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             display: inline-block;
-            animation: shineName 4s linear infinite, slowWaver 4s ease-in-out infinite alternate;
-            transform-origin: left center;
-        }
-
-        @keyframes shineName {
-            to {
-                background-position: 200% center;
-            }
-        }
-
-        @keyframes slowWaver {
-            0% {
-                transform: translateY(0px) rotate(0deg);
-            }
-
-            50% {
-                transform: translateY(-3px) rotate(0.3deg);
-            }
-
-            100% {
-                transform: translateY(2px) rotate(-0.3deg);
-            }
+            animation: shineName 4s linear infinite;
         }
 
         .hero-img-wrapper img {
-            width: 240px;
-            height: 240px;
+            width: 230px;
+            height: 230px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid var(--accent-color);
-            animation: roundImageWaver 6s ease-in-out infinite alternate;
-            box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
-        }
-
-        @keyframes roundImageWaver {
-            0% {
-                transform: translateY(0px) scale(1) rotate(0deg);
-                box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
-            }
-
-            50% {
-                transform: translateY(-10px) scale(1.03) rotate(2deg);
-                box-shadow: 0 0 35px rgba(56, 189, 248, 0.5);
-            }
-
-            100% {
-                transform: translateY(6px) scale(0.98) rotate(-2deg);
-                box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
-            }
+            box-shadow: 0 0 35px rgba(56, 189, 248, 0.5);
         }
 
         .name-tag-badge {
-            margin-top: 1.2rem;
+            margin-top: 1.4rem;
             background: rgba(0, 0, 0, 0.8);
             border: 1px solid var(--border-color);
-            padding: 0.4rem 1rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 8px;
             color: var(--text-color);
-            font-size: 0.85rem;
+            font-size: 1rem;
             font-weight: 500;
         }
 
         .hero-content p {
             color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 1.8rem;
-            line-height: 1.6;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.75;
         }
 
         .hero-buttons {
             display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
+            gap: 1.2rem;
         }
 
         .btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.7rem;
             background: var(--card-bg);
             color: var(--text-color);
-            padding: 0.7rem 1.4rem;
-            border-radius: 8px;
+            padding: 0.9rem 1.8rem;
+            border-radius: 10px;
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 1.05rem;
             text-decoration: none;
             border: 1px solid var(--border-color);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: -100%;
-            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .btn:hover::after {
-            left: 100%;
         }
 
         .btn:hover {
             border-color: var(--hover-border);
             color: var(--accent-color);
             transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.15);
+            box-shadow: 0 10px 22px rgba(56, 189, 248, 0.25);
         }
 
         .btn-primary {
@@ -541,58 +509,51 @@
         .btn-primary:hover {
             background: var(--accent-color);
             color: var(--bg-color);
-            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3);
         }
 
         /* Contact Section Details */
         .contact-cards-stack {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            background: transparent;
-            border: none;
-            padding: 0;
-            box-shadow: none;
+            gap: 1.2rem;
         }
 
         .contact-box {
             background: var(--card-bg);
-            padding: 1.1rem 1.4rem;
-            border-radius: 10px;
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.04);
+            padding: 1.4rem 1.8rem;
+            border-radius: 12px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
             display: flex;
             flex-direction: column;
             gap: 0.2rem;
             text-decoration: none;
             transition: all 0.3s ease;
             cursor: pointer;
-            animation: boxFloat 5s ease-in-out infinite alternate;
         }
 
         .contact-box:hover {
             border-color: var(--hover-border);
-            box-shadow: 0 0 30px rgba(56, 189, 248, 0.4);
-            transform: translateY(-6px);
-            animation-play-state: paused;
+            box-shadow: 0 0 35px rgba(56, 189, 248, 0.4);
+            transform: translateY(-4px);
         }
 
         .contact-box span {
             color: var(--text-muted);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .contact-box strong {
             color: var(--text-color);
-            font-size: 1rem;
+            font-size: 1.2rem;
             font-weight: 600;
         }
 
         .connect-action-box p {
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 1.12rem;
+            margin-bottom: 1.8rem;
         }
 
         /* Footer */
@@ -602,37 +563,33 @@
             background: var(--bg-color);
             color: var(--text-muted);
             border-top: 1px solid var(--border-color);
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             scroll-snap-align: end;
         }
 
-        /* Responsive Design */
         @media (max-width: 1024px) {
-            nav ul {
-                gap: 0.8rem;
+            .grid-container {
+                grid-template-columns: 1fr;
+                max-width: 700px;
             }
 
-            nav ul li a {
-                font-size: 0.75rem;
+            #home {
+                flex-direction: column;
+                padding-top: 8rem;
+                text-align: left;
             }
         }
 
         @media (max-width: 900px) {
             header {
                 flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
+                gap: 0.8rem;
+                padding: 0.8rem;
             }
 
             nav ul {
                 justify-content: center;
-                gap: 0.6rem;
-            }
-
-            #home {
-                flex-direction: column;
-                text-align: left;
-                padding-top: 10rem;
+                gap: 0.5rem;
             }
 
             .contact-layout {
@@ -673,7 +630,7 @@
     <!-- Hero Section -->
     <section id="home">
         <div class="hero-content">
-            <div class="dynamic-hello" id="hello-text">HELLO</div>
+            <div class="dynamic-hello" id="hello-text">HELLO</div><br>
             <h1>I'm Sujoy.</h1>
             <p>An ambitious Software Engineering undergraduate at Daffodil International University
                 bridging technical innovation with clean backend architecture, targeting remote global roles by 2028.
@@ -689,27 +646,34 @@
         </div>
     </section>
 
-    <!-- About Section -->
+    <!-- About Section (4 Boxes) -->
     <section id="about">
         <h2>About Me.</h2>
         <div class="grid-container">
             <div class="card">
                 <h3>Personal Profile</h3>
                 <p>I am Sujoy Bhowmick, an undergraduate Software Engineering student at Daffodil International
-                    University with a strong academic foundation. Driven by a passion for emerging technologies, I
-                    specialize in backend web development (FastAPI/Django), Artificial Intelligence, and Cybersecurity,
-                    aiming to secure a remote software engineering role by 2028.</p>
+                    University with a strong academic foundation in software systems and backend development.</p>
             </div>
             <div class="card">
-                <h3>Personality & Interests</h3>
-                <p>Passionate continuous learner with high adaptability and analytical problem-solving skills. Deeply
-                    interested in decentralized blockchain ecosystems, cryptocurrency trading strategies, web design,
-                    and strategic simulation gaming like eFootball.</p>
+                <h3>Technical Focus</h3>
+                <p>Driven by a passion for emerging technologies, specializing in Django backend engineering, Artificial
+                    Intelligence foundations, and practical cybersecurity paradigms.</p>
+            </div>
+            <div class="card">
+                <h3>Career Vision</h3>
+                <p>Aiming to secure a high-paying remote software engineering role by the end of 2028, delivering robust
+                    applications and scalable systems for global enterprises.</p>
+            </div>
+            <div class="card">
+                <h3>Interests & Lifestyle</h3>
+                <p>Passionate continuous learner deeply interested in decentralized blockchain ecosystems,
+                    cryptocurrency trading strategies, web design, and strategic gaming like eFootball.</p>
             </div>
         </div>
     </section>
 
-    <!-- Academic Background Section -->
+    <!-- Academic Background Section (4 Boxes) -->
     <section id="academic">
         <h2>Academic Background.</h2>
         <div class="grid-container">
@@ -718,71 +682,113 @@
                 <h3>B.Sc. in Software Engineering</h3>
                 <p><strong>Institution:</strong> Daffodil International University, Bangladesh</p>
                 <p><strong>Expected Graduation:</strong> 2028</p>
-                <p><strong>Academic Standing:</strong> 3.83 CGPA (Strong Academic Record)</p>
+            </div>
+            <div class="card">
+                <span class="badge-pill">Academic Standing</span>
+                <h3>High Performance</h3>
+                <p>Maintained an exceptional Average 3.63 CGPA, reflecting a rigorous commitment to mastery over core
+                    computer
+                    science and software development principles.</p>
             </div>
             <div class="card">
                 <span class="badge-pill">Core Curriculum</span>
-                <h3>Focus Areas & Principles</h3>
-                <p>Software engineering principles, system architecture, database management systems, computer
-                    architecture, backend web development, AI fundamentals, and cybersecurity foundations.</p>
+                <h3>Key Subjects</h3>
+                <p>Extensive study in system architecture, database management systems, computer architecture, data
+                    structures, algorithms, and artificial intelligence fundamentals.</p>
+            </div>
+            <div class="card">
+                <span class="badge-pill">Specialized Studies</span>
+                <h3>Testing & Networks</h3>
+                <p>Gaining hands-on knowledge in software testing methodologies, networking fundamentals, and practical
+                    IP configuration and network setups.</p>
             </div>
         </div>
     </section>
 
-    <!-- Roles & Responsibilities Section -->
+    <!-- Roles & Responsibilities Section (4 Boxes) -->
     <section id="roles">
         <h2>Roles & Responsibilities.</h2>
         <div class="grid-container">
             <div class="card">
-                <h3>Software Engineering Student & Developer</h3>
+                <h3>Software Engineering Student</h3>
                 <p>Designing, developing, and building structured applications and personal portfolio projects using
-                    modern technologies like FastAPI and WordPress.</p>
+                    modern technologies like Django, Python, and WordPress.</p>
             </div>
             <div class="card">
-                <h3>Backend Development & Community</h3>
-                <p>Applying core software architecture and database design patterns. Actively participating in campus
-                    initiatives, tech community events, and collaborative workflows.</p>
+                <h3>SQAT Programming Wing Member</h3>
+                <p>Active contributor and member of the programming wing under the Software Quality Assurance Club
+                    (SQAT), collaborating on coding activities and software quality.</p>
+            </div>
+            <div class="card">
+                <h3>Backend & System Developer</h3>
+                <p>Applying core software architecture, database design patterns, and efficient server-side logic to
+                    build clean, maintainable, and scalable codebases.</p>
+            </div>
+            <div class="card">
+                <h3>Community & Campus Contributor</h3>
+                <p>Participating actively in campus technical initiatives, collaborative peer workflows, tech workshops,
+                    and university-level volunteer programs.</p>
             </div>
         </div>
     </section>
 
-    <!-- Projects Section -->
+    <!-- Projects Section (4 Boxes) -->
     <section id="projects">
         <h2>Project Works.</h2>
         <div class="grid-container">
             <div class="card">
                 <h3>ScheduleCity</h3>
                 <p>Designed and built an advanced cluster management system focusing on scheduling workflows, robust
-                    backend architecture, database integration, and high performance.</p>
+                    backend architecture, and high-performance database integration.</p>
                 <br>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
                     <span class="badge-pill" style="margin:0;">Python</span>
-                    <span class="badge-pill" style="margin:0;">FastAPI</span>
+                    <span class="badge-pill" style="margin:0;">Django</span>
                     <span class="badge-pill" style="margin:0;">Database</span>
                 </div>
             </div>
             <div class="card">
-                <h3>Personal Portfolio & Web Apps</h3>
+                <h3>Portfolio & Web Apps</h3>
                 <p>Engineered and optimized responsive web interfaces and dynamic personal portfolios utilizing modern
                     HTML, CSS, JavaScript, and scalable server configurations.</p>
                 <br>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
                     <span class="badge-pill" style="margin:0;">HTML5</span>
                     <span class="badge-pill" style="margin:0;">CSS3</span>
                     <span class="badge-pill" style="margin:0;">JavaScript</span>
                 </div>
             </div>
+            <div class="card">
+                <h3>Workflow Automation Tool</h3>
+                <p>Experimenting with automation pipelines and server integrations using n8n to streamline web tasks,
+                    network tracking, and utility operations efficiently.</p>
+                <br>
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    <span class="badge-pill" style="margin:0;">n8n</span>
+                    <span class="badge-pill" style="margin:0;">Automation</span>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Hackathon Prototype Systems</h3>
+                <p>Developed rapid proof-of-concept solutions and functional prototypes during competitive coding
+                    challenges and hackathons under tight deadlines.</p>
+                <br>
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    <span class="badge-pill" style="margin:0;">Problem Solving</span>
+                    <span class="badge-pill" style="margin:0;">Prototype</span>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Skills Section -->
+    <!-- Skills Section (4 Boxes) -->
     <section id="skills">
         <h2>Skills & Expertise.</h2>
         <div class="grid-container">
             <div class="skill-category-card">
                 <h3>Backend & Programming</h3>
                 <div class="skill-items">
-                    <div class="skill-row"><span>Python / FastAPI</span><i class="fas fa-code"></i></div>
+                    <div class="skill-row"><span>Python / Django</span><i class="fas fa-code"></i></div>
                     <div class="skill-row"><span>C Language</span><i class="fas fa-terminal"></i></div>
                     <div class="skill-row"><span>JavaScript / Web</span><i class="fab fa-js"></i></div>
                     <div class="skill-row"><span>HTML/CSS</span><i class="fas fa-code"></i></div>
@@ -791,82 +797,123 @@
             <div class="skill-category-card">
                 <h3>Core Competencies</h3>
                 <div class="skill-items">
-                    <div class="skill-row"><span>Problem Solving</span><i class="fas fa-brain"></i></div>
-                    <div class="skill-row"><span>Cybersecurity Basics</span><i class="fas fa-shield-alt"></i></div>
+                    <div class="skill-row"><span>Software Testing & QA</span><i class="fas fa-check-circle"></i></div>
+                    <div class="skill-row"><span>Networking & IP Setup</span><i class="fas fa-network-wired"></i></div>
                     <div class="skill-row"><span>Database & SQL</span><i class="fas fa-database"></i></div>
                 </div>
             </div>
             <div class="skill-category-card">
                 <h3>Emerging Tech & Tools</h3>
                 <div class="skill-items">
-                    <div class="skill-row"><span>Blockchain & Web3</span><i class="fas fa-link"></i></div>
-                    <div class="skill-row"><span>Trading Analysis</span><i class="fas fa-chart-line"></i></div>
+                    <div class="skill-row"><span>n8n Workflow Automation</span><i class="fas fa-bolt"></i></div>
+                    <div class="skill-row"><span>Crypto Trading Analysis</span><i class="fas fa-chart-line"></i></div>
                     <div class="skill-row"><span>Git & GitHub</span><i class="fab fa-github"></i></div>
+                </div>
+            </div>
+            <div class="skill-category-card">
+                <h3>Soft Skills & Domain</h3>
+                <div class="skill-items">
+                    <div class="skill-row"><span>Problem Solving</span><i class="fas fa-brain"></i></div>
+                    <div class="skill-row"><span>Cybersecurity Basics</span><i class="fas fa-shield-alt"></i></div>
+                    <div class="skill-row"><span>Web3 & Blockchain</span><i class="fas fa-link"></i></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Work Experience Section -->
+    <!-- Work Experience Section (4 Boxes) -->
     <section id="experience">
         <h2>Work Experience.</h2>
         <div class="grid-container">
             <div class="card">
                 <span class="badge-pill">Ongoing / Professional</span>
-                <h3>Freelance / Personal Project Developer</h3>
+                <h3>Freelance Developer</h3>
                 <p>Designed, built, and optimized custom portfolio websites and backend applications using WordPress and
-                    modern web tools to showcase academic and technical capability with a focus on clean scalable
-                    architecture.</p>
+                    modern web tools to showcase technical capability.</p>
             </div>
             <div class="card">
-                <span class="badge-pill">Campus & Community</span>
-                <h3>Volunteer & Campus Involvement</h3>
-                <p>Participated in university volunteer programs and community tech initiatives at Daffodil
-                    International University, collaborating with peers and attending specialized tech conferences.</p>
+                <span class="badge-pill">Campus & Club</span>
+                <h3>SQAT & Technical Societies</h3>
+                <p>Active participation in university technical chapters and societies like the Software Quality
+                    Assurance Club (SQAT) at Daffodil International University.</p>
+            </div>
+            <div class="card">
+                <span class="badge-pill">Self-Directed</span>
+                <h3>Independent Projects & Trading</h3>
+                <p>Managing self-directed software projects, studying advanced security paradigms, and analyzing
+                    cryptocurrency market trends alongside university studies.</p>
+            </div>
+            <div class="card">
+                <span class="badge-pill">Volunteer Work</span>
+                <h3>Campus Volunteer Program</h3>
+                <p>Engaged in university volunteer programs and community organizing initiatives, supporting events and
+                    fostering collaboration among peers.</p>
             </div>
         </div>
     </section>
 
-    <!-- Certifications Section -->
+    <!-- Certifications Section (4 Boxes) -->
     <section id="certifications">
         <h2>Certifications.</h2>
         <div class="grid-container">
             <div class="card">
                 <span class="badge-pill">Verified Credentials</span>
                 <h3>Continuous Skill Development</h3>
-                <p>Completed various specialized certified training programs and courses in Artificial Intelligence,
+                <p>Completed specialized certified training programs and courses in Artificial Intelligence,
                     Cybersecurity, and Backend Web Development.</p>
                 <br>
                 <p><a href="https://www.linkedin.com/in/sujoy-bhowmick-b42796329/" target="_blank"
                         style="color: var(--accent-color); text-decoration: none; font-weight: 600;">View Verified
-                        LinkedIn
-                        Certificates &rarr;</a></p>
+                        LinkedIn &rarr;</a></p>
             </div>
             <div class="card">
                 <span class="badge-pill">Global Tech Exposure</span>
-                <h3>Industry Workshops & Gatherings</h3>
+                <h3>Industry Workshops</h3>
                 <p>Attended high-impact industry tech events such as Binance Blockchain Week to maintain cutting-edge
                     knowledge of decentralized Web3 technologies.</p>
+            </div>
+            <div class="card">
+                <span class="badge-pill">Workshops & Training</span>
+                <h3>Technical Seminars</h3>
+                <p>Engaged in various virtual and campus workshops focused on software engineering standards, version
+                    control systems, and collaborative development practices.</p>
+            </div>
+            <div class="card">
+                <span class="badge-pill">Security & QA Training</span>
+                <h3>Specialized Learning</h3>
+                <p>Undertook focused foundational learning tracks covering cybersecurity basics, network configuration,
+                    and software quality assurance principles.</p>
             </div>
         </div>
     </section>
 
-    <!-- Achievements Section -->
+    <!-- Achievements Section (4 Boxes) -->
     <section id="achievements">
         <h2>Achievements.</h2>
         <div class="grid-container">
             <div class="card">
+                <span class="badge-pill">Competition Finalist</span>
+                <h3>Hackathon Finalist</h3>
+                <p>Successfully qualified and competed as a finalist in a recent technical hackathon, demonstrating
+                    rapid problem-solving and innovative project development under pressure.</p>
+            </div>
+            <div class="card">
                 <span class="badge-pill">Academic Excellence</span>
-                <h3>Strong Academic Record in Software Engineering</h3>
-                <p>Maintained a high academic record at Daffodil International University while concurrently
-                    upskilling
-                    in high-demand technical domains like AI and backend web architectures.</p>
+                <h3>Strong Academic Record</h3>
+                <p>Maintained an impressive 3.83 CGPA at Daffodil International University while concurrently upskilling
+                    in high-demand technical domains like AI and backend architectures.</p>
             </div>
             <div class="card">
                 <span class="badge-pill">Leadership Foundation</span>
-                <h3>Extracurricular & Scouting</h3>
+                <h3>Scouting & Discipline</h3>
                 <p>Developed strong leadership, discipline, and community service foundations through past active
                     membership in the <strong>Bangladesh Scouts</strong>.</p>
+            </div>
+            <div class="card">
+                <span class="badge-pill">Milestone Recognition</span>
+                <h3>Extracurricular Growth</h3>
+                <p>Recognized for consistent engagement in campus programming wing activities, collaborative peer
+                    projects, and technical skill enhancement.</p>
             </div>
         </div>
     </section>
@@ -936,7 +983,7 @@
             }, 350);
         }, 2200);
 
-        /* Intersection Observer for Left/Right Side Sliding */
+        /* Intersection Observer for Smooth Section & Card Entrance */
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
